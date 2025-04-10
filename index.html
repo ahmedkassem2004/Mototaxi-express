@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MotoTaxi Xpress</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #fffdf0;
+      color: #000;
+      text-align: center;
+    }
+
+    /* Pantalla de carga */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #fffdf0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    #loader img {
+      width: 270px;
+      height: 270px;
+      animation: spin 1.5s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .logo {
+      width: 140px;
+      margin: 30px auto 10px;
+    }
+
+    h2 {
+      margin: 10px 0 20px;
+      font-size: 28px;
+      color: #000;
+    }
+
+    #formulario {
+      margin: 20px auto;
+      width: 90%;
+      max-width: 500px;
+      background: #fff8dc;
+      border-radius: 12px;
+      padding: 30px 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    input {
+      width: 90%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #999;
+    }
+
+    button {
+      width: 95%;
+      padding: 12px;
+      margin-top: 15px;
+      font-size: 16px;
+      background: #000;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #333;
+    }
+
+    #drivers {
+      margin-top: 30px;
+    }
+
+    .driver-card {
+      background: #fffbe6;
+      color: #000;
+      margin: 15px auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .driver-card img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .driver-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .small-btn {
+      display: inline-block;
+      font-size: 14px;
+      background: #ffc107;
+      margin: 5px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      color: black;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .small-btn:hover {
+      background: #e6b800;
+    }
+
+    .confirm {
+      margin: 30px auto;
+      font-size: 16px;
+      color: #006600;
+      max-width: 500px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pantalla de carga -->
+  <div id="loader">
+    <img src="Rueda.png" alt="Cargando..." />
+  </div>
+
+  <!-- Logo y título -->
+  <img src="logo.png" alt="Logo" class="logo" />
+  <h2>Solicita tu Mototaxi</h2>
+
+  <!-- Formulario -->
+  <div id="formulario">
+    <input type="text" id="nombre" placeholder="Tu nombre" />
+    <input type="text" id="direccion" placeholder="Tu ubicación o dirección" />
+    <button onclick="mostrarConductores()">
+      <i class="fas fa-motorcycle"></i> Buscar Mototaxis
+    </button>
+  </div>
+
+  <!-- Lista de conductores -->
+  <div id="drivers"></div>
+  <div id="confirmacion" class="confirm"></div>
+
+  <!-- Lógica -->
+  <script>
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("loader").style.display = "none";
+      }, 5000);
+    });
+
+    const conductores = [
+      { nombre: "Milzon", tiempo: "5 min", numero: "+573024517634", foto: "foto-milzon.jpg" },
+      { nombre: "Mekoo", tiempo: "7 min", numero: "+5730117048661", foto: "foto-mekoo.jpg" },
+      { nombre: "Elkin", tiempo: "6 min", numero: "+573012994731", foto: "foto-elkin.jpg" }
+    ];
+
+    function mostrarConductores() {
+      const nombre = document.getElementById("nombre").value.trim();
+      const direccion = document.getElementById("direccion").value.trim();
+      const container = document.getElementById("drivers");
+      const confirmacion = document.getElementById("confirmacion");
+
+      container.innerHTML = "";
+      confirmacion.innerHTML = "";
+
+      if (!nombre || !direccion) {
+        alert("Por favor, completa tu nombre y dirección.");
+        return;
+      }
+
+      conductores.forEach(c => {
+        const mensaje = `Hola ${c.nombre}, buenas, ¿cómo estás? Necesito un servicio a mi ubicación.\n\n📍 Dirección: ${direccion}\n🧍 Usuario: ${nombre}`;
+        const mensajeWhatsApp = encodeURIComponent(mensaje);
+        const enlaceWhatsApp = `https://wa.me/${c.numero.replace('+', '')}?text=${mensajeWhatsApp}`;
+        const enlaceLlamada = `tel:${c.numero}`;
+
+        const card = document.createElement("div");
+        card.className = "driver-card";
+        card.innerHTML = `
+          <img src="${c.foto}" alt="Vehículo de ${c.nombre}" />
+          🛺 <b>${c.nombre}</b><br />
+          <i class="fas fa-clock"></i> Tiempo estimado: ${c.tiempo}<br />
+          <i class="fas fa-handshake"></i> El precio se negocia con el conductor<br />
+          <a class="small-btn" href="${enlaceWhatsApp}" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+          <a class="small-btn" href="${enlaceLlamada}"><i class="fas fa-phone"></i> Llamar</a>
+        `;
+        container.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
