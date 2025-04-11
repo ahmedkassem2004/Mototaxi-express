@@ -8,15 +8,16 @@
   <link rel="icon" href="logo.png" />
   <meta name="theme-color" content="#000000" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     body {
-      margin: 0;
       font-family: 'Poppins', sans-serif;
+      margin: 0;
       background: #fdfdfd;
       color: #222;
       text-align: center;
     }
+
     #loader {
       position: fixed;
       top: 0;
@@ -25,15 +26,24 @@
       height: 100vh;
       background: #fffdf0;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 9999;
     }
+
     #loader img {
-      width: 270px;
-      height: 270px;
+      width: 150px;
+      height: 150px;
       animation: spin 1.5s linear infinite;
+      margin-bottom: 20px;
     }
+
+    #loader h1 {
+      font-size: 22px;
+      color: #000;
+    }
+
     @keyframes spin {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
@@ -85,13 +95,13 @@
     }
 
     .driver-card {
-      background: #fdf9e3;
+      background: #ffffff;
       margin: 20px auto;
       padding: 20px;
       border-radius: 12px;
       width: 90%;
       max-width: 500px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
 
@@ -100,23 +110,23 @@
       max-width: 400px;
       border-radius: 10px;
       margin-bottom: 10px;
-      border: 2px solid #eee;
+      border: 1px solid #ccc;
     }
 
     .small-btn {
       display: inline-block;
-      margin: 5px;
-      padding: 10px 20px;
+      margin: 6px;
+      padding: 10px 18px;
       font-size: 14px;
       border-radius: 6px;
       background: #ffc107;
-      color: #000;
+      color: black;
       text-decoration: none;
       transition: background 0.3s;
     }
 
     .small-btn:hover {
-      background: #e0a800;
+      background: #e6b800;
     }
 
     .confirm {
@@ -130,36 +140,35 @@
 
   <!-- Pantalla de carga -->
   <div id="loader">
-    <img src="Rueda.png" alt="Cargando..." />
+    <img src="Rueda.png" alt="Cargando...">
+    <h1>Bienvenido a MotoTaxi Xpress</h1>
   </div>
 
-  <!-- Logo -->
-  <img src="logo.png" alt="Logo" class="logo" />
+  <!-- Logo y Título -->
+  <img src="logo.png" alt="Logo" class="logo">
   <h2>Solicita tu Mototaxi</h2>
 
   <!-- Formulario -->
   <div id="formulario">
-    <input type="text" id="nombre" placeholder="Tu nombre" />
-    <input type="text" id="direccion" placeholder="Tu ubicación o dirección" />
-    <input type="text" id="destino" placeholder="Destino" />
+    <input type="text" id="nombre" placeholder="Tu nombre">
+    <input type="text" id="direccion" placeholder="Tu ubicación o dirección">
+    <input type="text" id="destino" placeholder="Destino">
     <select id="servicio">
       <option value="Transporte">🚕 Transporte de pasajeros</option>
       <option value="Encomienda">📦 Envío de encomiendas</option>
     </select>
-    <button onclick="mostrarConductores()">
-      <i class="fas fa-motorcycle"></i> Buscar Mototaxis
-    </button>
+    <button onclick="mostrarConductores()"><i class="fas fa-motorcycle"></i> Buscar Mototaxis</button>
   </div>
 
-  <!-- Resultados -->
+  <!-- Lista de conductores -->
   <div id="drivers"></div>
-  <div id="confirmacion" class="confirm"></div>
+  <div class="confirm" id="confirmacion"></div>
 
   <script>
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("loader").style.display = "none";
-      }, 5000);
+      }, 4000);
     });
 
     const conductores = [
@@ -191,14 +200,14 @@
         const enlaceLlamada = `tel:${c.numero}`;
         const enlaceSMS = navigator.userAgent.match(/Android|iPhone|iPad|iPod/i)
           ? `sms:${c.numero}?body=${encodeURIComponent(mensaje)}`
-          : `javascript:alert('El envío de SMS solo está disponible desde dispositivos móviles.')`;
+          : `javascript:alert('El envío de SMS solo está disponible desde móviles.')`;
 
         const card = document.createElement("div");
         card.className = "driver-card";
         card.innerHTML = `
           <img src="${c.foto}" alt="Vehículo de ${c.nombre}">
-          <i class="fas fa-user"></i> <b>${c.nombre}</b><br>
-          <i class="fas fa-clock"></i> Tiempo estimado: ${c.tiempo}<br>
+          <h3>${c.nombre}</h3>
+          <p>⏱ Tiempo estimado: ${c.tiempo}</p>
           <a class="small-btn" href="${enlaceWhatsApp}" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
           <a class="small-btn" href="${enlaceLlamada}"><i class="fas fa-phone"></i> Llamar</a>
           <a class="small-btn" href="${enlaceSMS}"><i class="fas fa-sms"></i> SMS</a>
