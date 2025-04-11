@@ -1,0 +1,21 @@
+{
+  "name": "MotoTaxi Xpress",
+  "short_name": "MotoTaxi",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fffdf0",
+  "theme_color": "#000000",
+  "description": "Solicita tu mototaxi desde esta app web.",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
