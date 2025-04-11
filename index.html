@@ -14,7 +14,6 @@
       color: #000;
       text-align: center;
     }
-    /* Pantalla de carga */
     #loader {
       position: fixed;
       top: 0;
@@ -45,7 +44,6 @@
       font-size: 28px;
       color: #000;
     }
-    /* Formulario de solicitud */
     #formulario {
       margin: 20px auto;
       width: 90%;
@@ -55,7 +53,7 @@
       padding: 30px 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    #formulario input {
+    #formulario input, #formulario select {
       width: 90%;
       padding: 12px;
       margin: 10px 0;
@@ -78,7 +76,6 @@
     #formulario button:hover {
       background: #333;
     }
-    /* Tarjetas de mototaxis */
     #drivers {
       margin-top: 30px;
     }
@@ -145,6 +142,10 @@
     <input type="text" id="nombre" placeholder="Tu nombre">
     <input type="text" id="direccion" placeholder="Tu ubicación o dirección">
     <input type="text" id="destino" placeholder="Destino">
+    <select id="servicio">
+      <option value="Transporte">🚕 Transporte de pasajeros</option>
+      <option value="Encomienda">📦 Envío de encomiendas</option>
+    </select>
     <button onclick="mostrarConductores()">
       <i class="fas fa-motorcycle"></i> Buscar Mototaxis
     </button>
@@ -155,25 +156,23 @@
   <div id="confirmacion" class="confirm"></div>
 
   <script>
-    // Ocultar pantalla de carga después de 5 segundos
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("loader").style.display = "none";
       }, 5000);
     });
 
-    // Lista de mototaxistas
     const conductores = [
       { nombre: "Milzon", tiempo: "5 min", numero: "+573024517634", foto: "foto-milzon.jpg" },
       { nombre: "Mekoo", tiempo: "7 min", numero: "+5730117048661", foto: "foto-mekoo.jpg" },
       { nombre: "Elkin", tiempo: "6 min", numero: "+573012994731", foto: "foto-elkin.jpg" }
     ];
 
-    // Función para generar los conductores con sus botones de contacto
     function mostrarConductores() {
       const nombre = document.getElementById("nombre").value.trim();
       const direccion = document.getElementById("direccion").value.trim();
       const destino = document.getElementById("destino").value.trim();
+      const servicio = document.getElementById("servicio").value;
       const container = document.getElementById("drivers");
       const confirmacion = document.getElementById("confirmacion");
 
@@ -186,7 +185,7 @@
       }
 
       conductores.forEach(c => {
-        const mensaje = `Hola ${c.nombre}, buenas, ¿cómo estás? Necesito un servicio desde mi ubicación: ${direccion} hacia ${destino}.\n\nUsuario: ${nombre}`;
+        const mensaje = `Hola ${c.nombre}, buenas, ¿cómo estás? Necesito un servicio de tipo: ${servicio} desde: ${direccion} hasta: ${destino}.\n\n🧍 Usuario: ${nombre}`;
         const mensajeWhatsApp = encodeURIComponent(mensaje);
         const enlaceWhatsApp = `https://wa.me/${c.numero.replace('+', '')}?text=${mensajeWhatsApp}`;
         const enlaceLlamada = `tel:${c.numero}`;
@@ -206,6 +205,5 @@
       });
     }
   </script>
-
 </body>
 </html>
