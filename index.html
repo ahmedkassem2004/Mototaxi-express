@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MotoTaxi Xpress</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="logo.png" />
+  <meta name="theme-color" content="#000000" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     body {
       margin: 0;
@@ -128,16 +131,13 @@
 </head>
 <body>
 
-  <!-- Pantalla de carga -->
   <div id="loader">
     <img src="Rueda.png" alt="Cargando..." />
   </div>
 
-  <!-- Contenido principal -->
-  <img src="logo.png" alt="Logo" class="logo">
+  <img src="logo.png" alt="Logo" class="logo" />
   <h2>Solicita tu Mototaxi</h2>
 
-  <!-- Formulario de solicitud -->
   <div id="formulario">
     <input type="text" id="nombre" placeholder="Tu nombre">
     <input type="text" id="direccion" placeholder="Tu ubicación o dirección">
@@ -151,7 +151,6 @@
     </button>
   </div>
 
-  <!-- Lista de conductores -->
   <div id="drivers"></div>
   <div id="confirmacion" class="confirm"></div>
 
@@ -203,6 +202,11 @@
         `;
         container.appendChild(card);
       });
+    }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('Service Worker registrado correctamente.'));
     }
   </script>
 </body>
