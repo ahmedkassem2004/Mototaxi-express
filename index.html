@@ -150,18 +150,18 @@
     <h1>Bienvenido a MotoTaxi Xpress</h1>
   </div>
 
-  <!-- Logo y T铆tulo -->
+  <!-- Logo y Título -->
   <img src="logo.png" alt="Logo" class="logo">
   <h2>Solicita tu Mototaxi</h2>
 
   <!-- Formulario -->
   <div id="formulario">
     <input type="text" id="nombre" placeholder="Tu nombre">
-    <input type="text" id="direccion" placeholder="Tu ubicacion o direccion">
+    <input type="text" id="direccion" placeholder="Tu ubicación o dirección">
     <input type="text" id="destino" placeholder="Destino">
     <select id="servicio">
       <option value="Transporte">🛺 Transporte de pasajeros</option>
-      <option value="Encomienda">📦 Envio de encomiendas</option>
+      <option value="Encomienda">📦 Envío de encomiendas</option>
     </select>
     <button onclick="mostrarConductores()"><i class="fas fa-motorcycle"></i> Buscar Mototaxis</button>
   </div>
@@ -196,18 +196,18 @@
       confirmacion.innerHTML = "";
 
       if (!nombre || !direccion || !destino) {
-        alert("Por favor, completa tu nombre, direcci贸n y destino.");
+        alert("Por favor, completa tu nombre, dirección y destino.");
         return;
       }
 
       conductores.forEach(c => {
-        const mensaje = `Hola ${c.nombre}, buenas, 驴c贸mo est谩s? Necesito un servicio de tipo: ${servicio} desde: ${direccion} hasta: ${destino}.\n\n馃 Usuario: ${nombre}`;
+        const mensaje = `Hola ${c.nombre}, buenas, ¿cómo estás? Necesito un servicio de tipo: ${servicio} desde: ${direccion} hasta: ${destino}.\n\n🧍 Usuario: ${nombre}`;
         const mensajeWhatsApp = encodeURIComponent(mensaje);
         const enlaceWhatsApp = `https://wa.me/${c.numero.replace('+', '')}?text=${mensajeWhatsApp}`;
         const enlaceLlamada = `tel:${c.numero}`;
         const enlaceSMS = navigator.userAgent.match(/Android|iPhone|iPad|iPod/i)
           ? `sms:${c.numero}?body=${encodeURIComponent(mensaje)}`
-          : `javascript:alert('El env铆o de SMS solo est谩 disponible desde m贸viles.')`;
+          : `javascript:alert('El envío de SMS solo está disponible desde móviles.')`;
         const enlaceJitsi = `https://meet.jit.si/MotoTaxi-${c.nombre}`;
 
         const card = document.createElement("div");
