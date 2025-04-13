@@ -16,6 +16,7 @@
       background: #fdfdfd;
       color: #222;
       text-align: center;
+      transition: background 0.4s ease;
     }
 
     #loader {
@@ -30,6 +31,8 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.5s ease;
     }
 
     #loader img {
@@ -52,11 +55,17 @@
     .logo {
       width: 120px;
       margin: 30px auto 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
     }
 
     h2 {
       font-size: 28px;
       margin-bottom: 10px;
+      transition: color 0.3s ease;
     }
 
     #formulario {
@@ -67,6 +76,7 @@
       border-radius: 12px;
       padding: 30px 20px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
     }
 
     #formulario input, #formulario select {
@@ -76,6 +86,12 @@
       font-size: 16px;
       border-radius: 8px;
       border: 1px solid #ccc;
+      transition: border 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #formulario input:focus, #formulario select:focus {
+      border-color: #333;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
     }
 
     #formulario button {
@@ -103,11 +119,14 @@
       max-width: 500px;
       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
       text-align: center;
-      transition: transform 0.3s ease;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
     }
 
-    .driver-card:hover {
-      transform: scale(1.02);
+    .driver-card.visible {
+      transform: translateY(0);
+      opacity: 1;
     }
 
     .driver-card img {
@@ -117,6 +136,11 @@
       border-radius: 50%;
       margin-bottom: 10px;
       border: 2px solid #000;
+      transition: transform 0.3s ease;
+    }
+
+    .driver-card img:hover {
+      transform: scale(1.05);
     }
 
     .small-btn {
@@ -128,21 +152,26 @@
       background: #ffc107;
       color: black;
       text-decoration: none;
-      transition: background 0.3s ease;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
 
     .small-btn:hover {
       background: #e6b800;
+      transform: scale(1.05);
     }
 
     .confirm {
       margin-top: 30px;
       font-size: 16px;
       color: green;
+      transition: opacity 0.4s;
     }
   </style>
 </head>
 <body>
+
+  <!-- Audio de bienvenida -->
+  <audio id="bienvenida-audio" src="bienvenida.mp3" preload="auto"></audio>
 
   <!-- Pantalla de carga -->
   <div id="loader">
@@ -172,8 +201,21 @@
 
   <script>
     window.addEventListener("load", () => {
+      const loader = document.getElementById("loader");
+      const audio = document.getElementById("bienvenida-audio");
+
+      // Reproducir sonido de bienvenida por 3 segundos
+      if (audio) {
+        audio.play().catch(() => {});
+        setTimeout(() => {
+          audio.pause();
+          audio.currentTime = 0;
+        }, 3000);
+      }
+
       setTimeout(() => {
-        document.getElementById("loader").style.display = "none";
+        loader.style.opacity = "0";
+        setTimeout(() => loader.style.display = "none", 500);
       }, 4000);
     });
 
@@ -200,7 +242,7 @@
         return;
       }
 
-      conductores.forEach(c => {
+      conductores.forEach((c, index) => {
         const mensaje = `Hola ${c.nombre}, buenas, ¿cómo estás? Necesito un servicio de tipo: ${servicio} desde: ${direccion} hasta: ${destino}.\n\n🧍 Usuario: ${nombre}`;
         const mensajeWhatsApp = encodeURIComponent(mensaje);
         const enlaceWhatsApp = `https://wa.me/${c.numero.replace('+', '')}?text=${mensajeWhatsApp}`;
@@ -221,6 +263,7 @@
           <a class="small-btn" href="${enlaceJitsi}" target="_blank"><i class="fas fa-video"></i> Videollamada</a>
         `;
         container.appendChild(card);
+        setTimeout(() => card.classList.add("visible"), 100 * index);
       });
     }
 
